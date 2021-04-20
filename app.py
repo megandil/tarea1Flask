@@ -26,7 +26,21 @@ def calculapotencia(num1,num2):
 
 @app.route('/cuenta/')
 def cuenta():
-    return render_template("cuenta.html")
+    palabra="hola"
+    letra="h"
+    if len(letra) > 1:
+        abort(404)
+    resultado=palabra.count(letra)
+    return render_template("cuenta.html",palabra=palabra,letra=letra,resultado=resultado)
+    
+@app.route('/cuenta/<cadena1>/<cadena2>')
+def hacecuenta(cadena1,cadena2):
+    palabra=cadena1
+    letra=cadena2
+    if len(letra) > 1:
+        abort(404)
+    resultado=palabra.count(letra)
+    return render_template("cuenta.html",palabra=palabra,letra=letra,resultado=resultado)
 
 @app.route('/libro/')
 def libro():
