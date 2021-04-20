@@ -44,5 +44,19 @@ def hacecuenta(cadena1,cadena2):
 
 @app.route('/libro/')
 def libro():
-    return render_template("libro.html")
+    doc = etree.parse('libros.xml')
+    codigo=123
+    libro=doc.xpath('//libro/codigo[text()="%i"]/../titulo/text()' % codigo)
+    autor=doc.xpath('//libro/codigo[text()="%i"]/../autor/text()' % codigo)
+    return render_template("libro.html",libro=libro[0],autor=autor[0])
+
+@app.route('/libro/<int:numero>')
+def buscalibro(numero):
+    doc = etree.parse('libros.xml')
+    codigo=numero
+    libro=doc.xpath('//libro/codigo[text()="%i"]/../titulo/text()' % codigo)
+    autor=doc.xpath('//libro/codigo[text()="%i"]/../autor/text()' % codigo)
+    if len(libro)  == 0:
+        abort(404)
+    return render_template("libro.html",libro=libro[0],autor=autor[0])
 app.run(debug=True)
